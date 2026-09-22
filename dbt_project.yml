@@ -42,4 +42,4 @@ models:
       +materialized: table
       sample:
           +materialized: table
-
+          
