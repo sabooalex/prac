@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: order_tables
+    database: ramesh
+    schema: order_schema
+
+    tables:
+      - name: cust_orders
+        config:
+          loaded_at_field: order_timestamp
+          freshness:
+            warn_after:
+              count: 23
+              period: hour
+            error_after:
+              count: 5
+              period: hour
+
+models:
+  - name: customer_processed
+    config:
+      tags: ['sample', 'customer']              
