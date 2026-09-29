@@ -20,4 +20,43 @@ sources:
 models:
   - name: customer_processed
     config:
-      tags: ['sample', 'customer']              
+      tags: ['sample', 'customer']
+  - name: incremental_customer
+    config:
+      database: ramesh
+      schema: incre_model
+      tags: ['inc_customer']         
+      materialized: incremental
+      incremental_strategy: delete+insert
+      unique_key:
+      - reporting_month
+      on_schema_change: ignore
+
+
+      description: Processed customer order data
+
+    columns:
+        - name: order_id
+          description: Unique identifier for the order
+
+        - name: customer_id
+          description: Identifier of the customer
+
+        - name: order_timestamp
+          description: Timestamp when the order was placed
+
+        - name: reporting_month
+          description: Month associated with the order      
+
+
+exposures:
+  - name: customer_aqusition_dashboard
+    label: Customer Aquisition dashboard
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Data Team
+      email: data@example.com
+    depends_on:
+      - ref('incremental_customer')
+
